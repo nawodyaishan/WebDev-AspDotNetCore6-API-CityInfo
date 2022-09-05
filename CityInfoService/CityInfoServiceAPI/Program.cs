@@ -11,22 +11,17 @@ var app = builder.Build();
 
 // // Configure the HTTP request pipeline.
 
-// if (app.Environment.IsDevelopment())
-// {
-
+if (app.Environment.IsDevelopment())
+{
 // Generates UI Documentation
-app.UseSwagger();
-app.UseSwaggerUI();
- 
-// }
-// 
-// app.UseHttpsRedirection();
-//
-// app.UseAuthorization();
-//
-// app.MapControllers();
+    app.UseSwagger(); 
+    app.UseSwaggerUI();
+}
 
-app.Run(async (context) => { await context.Response.WriteAsync("Hello World!"); }
-);
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();
