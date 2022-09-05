@@ -21,7 +21,13 @@ public class CitiesController : ControllerBase
         // Find City
         var cityToReturn = CitiesDataStore.Current.cities.FirstOrDefault(x => x.id == id);
 
-        // Return with 2000 Ok Status Code
+        // Return with 404 Not Found Status Code
+        if (cityToReturn == null)
+        {
+            return NotFound();
+        }
+
+        // Return with 200 Ok Status Code
         return Ok(cityToReturn);
     }
 }
