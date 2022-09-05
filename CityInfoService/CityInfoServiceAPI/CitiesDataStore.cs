@@ -18,21 +18,18 @@ public class CitiesDataStore
                 id = 1,
                 name = "Colombo",
                 description = "First Big City",
-                numberOfPointsOfInterest = 5
             },
             new CityDto()
             {
                 id = 2,
                 name = "Kandy",
                 description = "Second Big City",
-                numberOfPointsOfInterest = 5
             },
             new CityDto()
             {
                 id = 3,
                 name = "Galle",
                 description = "Third Big City",
-                numberOfPointsOfInterest = 5
             }
         };
     }

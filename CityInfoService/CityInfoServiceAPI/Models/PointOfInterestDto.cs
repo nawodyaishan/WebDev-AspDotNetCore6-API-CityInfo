@@ -1,11 +1,10 @@
 namespace CityInfoServiceAPI.Models;
 
-public class CityDto
+public class PointOfInterestDto
 {
     public int id { get; set; }
     public string name { get; set; } = string.Empty;
     public string? description { get; set; }
 
-    public ICollection<PointOfInterestDto> pointOfInterest { get; set; }
-        = new List<PointOfInterestDto>();
+
 }

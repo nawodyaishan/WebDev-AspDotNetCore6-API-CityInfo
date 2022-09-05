@@ -9,10 +9,9 @@ namespace CityInfoServiceAPI.Controllers;
 public class CitiesController : ControllerBase
 {
     [HttpGet]
-    public JsonResult GetCities()
+    public ActionResult<IEnumerable<CityDto>> GetCities()
     {
-        var response = new JsonResult(CitiesDataStore.Current.cities);
-        return response;
+        return Ok((CitiesDataStore.Current.cities));
     }
 
     [HttpGet("{id}")]
