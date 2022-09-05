@@ -14,13 +14,18 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
 // Generates UI Documentation
-    app.UseSwagger(); 
+    app.UseSwagger();
     app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
 app.UseAuthorization();
+
+app.UseEndpoints(endPoints => { endPoints.MapControllers(); }
+);
 
 app.MapControllers();
 
