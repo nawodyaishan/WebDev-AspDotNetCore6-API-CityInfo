@@ -46,7 +46,8 @@ public class PointsOfInterestController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult<PointOfInterestDto> CreatePointOfInterest(int cityId, PointOfInterestDto pointOfInterest)
+    public ActionResult<PointOfInterestDto> CreatePointOfInterest(int cityId,
+        PointOfInterestForCreationDto pointOfInterest)
     {
         var city = CitiesDataStore.Current.cities.FirstOrDefault(c => c.id == cityId);
         if (city == null)
@@ -63,14 +64,14 @@ public class PointsOfInterestController : ControllerBase
             name = pointOfInterest.name,
             description = pointOfInterest.description
         };
-         
+
         city.pointsOfInterest.Add(finalPointOfInterest);
- 
+
         return CreatedAtRoute("GetPointOfInterest", new
-        {
-            cityId = cityId,
-            pointOfInterest = finalPointOfInterest.id,
-        },
+            {
+                cityId = cityId,
+                pointOfInterest = finalPointOfInterest.id,
+            },
             finalPointOfInterest);
     }
 }

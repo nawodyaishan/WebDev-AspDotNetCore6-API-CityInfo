@@ -2,6 +2,6 @@ namespace CityInfoServiceAPI.Models;
 
 public class PointOfInterestForCreationDto
 {
-    public string Name { get; set; } = string.Empty;
-    public string? Description { get; set; }
+    public string name { get; set; } = string.Empty;
+    public string? description { get; set; }
 }
