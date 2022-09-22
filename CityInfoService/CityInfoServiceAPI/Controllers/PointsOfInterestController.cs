@@ -1,5 +1,6 @@
 using System.Drawing;
 using CityInfoServiceAPI.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
@@ -105,5 +106,12 @@ public class PointsOfInterestController : ControllerBase
         pointOfInterestStore.description = pointOfInterestForUpdateDto.description;
 
         return NoContent();
+    }
+
+
+    [HttpPatch("{pointofinterestid}")]
+    public ActionResult PartiallyUpdatePointOfInterest(int cityId, int pointOfInterestId,
+        JsonPatchDocument<PointOfInterestForUpdateDto> pointOfInterestForUpdateDto)
+    {
     }
 }

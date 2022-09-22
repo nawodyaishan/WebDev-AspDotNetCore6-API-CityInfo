@@ -6,10 +6,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers(options =>
-{
-    // Not Acceptable HTTP Headers
-    options.ReturnHttpNotAcceptable = true;
-}).AddXmlSerializerFormatters();
+    {
+        // Not Acceptable HTTP Headers
+        options.ReturnHttpNotAcceptable = true;
+    }).AddNewtonsoftJson()
+    .AddXmlSerializerFormatters();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
