@@ -1,5 +1,7 @@
+using System.Drawing;
 using CityInfoServiceAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace CityInfoServiceAPI.Controllers;
 
@@ -49,6 +51,11 @@ public class PointsOfInterestController : ControllerBase
     public ActionResult<PointOfInterestDto> CreatePointOfInterest(int cityId,
         PointOfInterestForCreationDto pointOfInterest)
     {
+        // if (!ModelState.IsValid)
+        // {
+        //     BadRequest();
+        // }
+
         var city = CitiesDataStore.Current.cities.FirstOrDefault(c => c.id == cityId);
         if (city == null)
         {
@@ -73,5 +80,30 @@ public class PointsOfInterestController : ControllerBase
                 pointOfInterest = finalPointOfInterest.id,
             },
             finalPointOfInterest);
+    }
+
+    [HttpPut("{pointofinterestid}")]
+    public ActionResult UpdatePointOfInterest(int cityId, int pointOfInterestId,
+        PointOfInterestForUpdateDto pointOfInterestForUpdateDto)
+    {
+        // Find City
+        var city = CitiesDataStore.Current.cities.FirstOrDefault(c => c.id == cityId);
+        if (city == null)
+        {
+            return NotFound();
+        }
+
+        // Find point of interest
+        var pointOfInterestStore = city.pointsOfInterest.FirstOrDefault(c => c.id == pointOfInterestId);
+
+        if (pointOfInterestStore == null)
+        {
+            return NotFound();
+        }
+
+        pointOfInterestStore.name = pointOfInterestForUpdateDto.name;
+        pointOfInterestStore.description = pointOfInterestForUpdateDto.description;
+
+        return NoContent();
     }
 }
