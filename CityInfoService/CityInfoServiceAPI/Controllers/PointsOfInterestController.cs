@@ -111,7 +111,39 @@ public class PointsOfInterestController : ControllerBase
 
     [HttpPatch("{pointofinterestid}")]
     public ActionResult PartiallyUpdatePointOfInterest(int cityId, int pointOfInterestId,
-        JsonPatchDocument<PointOfInterestForUpdateDto> pointOfInterestForUpdateDto)
+        JsonPatchDocument<PointOfInterestForUpdateDto> patchDocument)
     {
+        // Find City
+        var city = CitiesDataStore.Current.cities.FirstOrDefault(c => c.id == cityId);
+        if (city == null)
+        {
+            return NotFound();
+        }
+
+        // Find point of interest
+        var pointOfInterestFromStore = city.pointsOfInterest.FirstOrDefault(c => c.id == pointOfInterestId);
+
+        if (pointOfInterestFromStore == null)
+        {
+            return NotFound();
+        }
+
+        var pointOfInterestToPatch = new PointOfInterestForUpdateDto()
+        {
+            name = pointOfInterestFromStore.name,
+            description = pointOfInterestFromStore.description
+        };
+
+        patchDocument.ApplyTo(pointOfInterestToPatch, ModelState);
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        pointOfInterestFromStore.name = pointOfInterestToPatch.name;
+        pointOfInterestFromStore.description = pointOfInterestToPatch.description;
+
+        return NoContent();
     }
 }
