@@ -10,11 +10,11 @@ namespace CityInfoServiceAPI.Controllers;
 public class PointsOfInterestController : ControllerBase
 {
     private readonly ILogger<PointsOfInterestController> _logger;
-    private readonly LocalMailService _localMailService;
+    private readonly IMailService _localMailService;
 
-    public PointsOfInterestController(ILogger<PointsOfInterestController> logger, LocalMailService localMailService)
+    public PointsOfInterestController(ILogger<PointsOfInterestController> logger, IMailService mailService)
     {
-        _localMailService = localMailService ?? throw new ArgumentNullException(nameof(localMailService));
+        _localMailService = mailService ?? throw new ArgumentNullException(nameof(mailService));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
