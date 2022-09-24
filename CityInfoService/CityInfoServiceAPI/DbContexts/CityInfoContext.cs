@@ -12,6 +12,7 @@ public class CityInfoContext : DbContext
     {
     }
 
+    // Providing Data to Start With
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<City>().HasData(
