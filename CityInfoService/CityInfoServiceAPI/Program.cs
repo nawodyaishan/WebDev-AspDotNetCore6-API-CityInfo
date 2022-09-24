@@ -1,3 +1,4 @@
+using CityInfoServiceAPI;
 using CityInfoServiceAPI.Services;
 using Microsoft.AspNetCore.StaticFiles;
 using Serilog;
@@ -27,7 +28,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<FileExtensionContentTypeProvider>();
 
 // Adding Mail Service
-builder.Services.AddTransient<IMailService , LocalMailService>();
+// Using Compiler Directives
+#if DEBUG
+builder.Services.AddTransient<IMailService, LocalMailService>();
+
+#else
+builder.Services.AddTransient<IMailService, CloudMailService>();
+
+#endif
+
+// Registering _CitiesDataStore in services container
+builder.Services.AddSingleton<CitiesDataStore>();
 
 var app = builder.Build();
 
