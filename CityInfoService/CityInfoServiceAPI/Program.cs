@@ -1,10 +1,19 @@
 using Microsoft.AspNetCore.StaticFiles;
-using Microsoft.Extensions.Options;
+using Serilog;
+
+// Configuring Serilog Logger Profile
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console()
+    .WriteTo.File("logs/cityInfo.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
+// builder.Logging.ClearProviders();
+// builder.Logging.AddConsole();
+builder.Host.UseSerilog();
 
 // Add services to the container.
-
 builder.Services.AddControllers(options =>
     {
         // Not Acceptable HTTP Headers
