@@ -18,7 +18,7 @@ public class CityInfoContext : DbContext
         modelBuilder.Entity<City>().HasData(
             new City("Colombo")
             {
-                id = 1,
+                id = 1, 
                 description = "h9ew ud uewq dui phudwu9e dhu9wpe p"
             },
             new City("Badulla")

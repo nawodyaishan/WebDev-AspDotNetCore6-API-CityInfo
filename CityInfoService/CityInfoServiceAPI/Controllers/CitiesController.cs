@@ -1,4 +1,5 @@
 using CityInfoServiceAPI.Models;
+using CityInfoServiceAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CityInfoServiceAPI.Controllers;
@@ -8,32 +9,48 @@ namespace CityInfoServiceAPI.Controllers;
 [Route("api/cities")]
 public class CitiesController : ControllerBase
 {
-    private readonly CitiesDataStore _citiesDataStore;
+    private readonly ICityInfoRepository _cityInfoRepository;
 
-    public CitiesController(CitiesDataStore citiesDataStore)
+    public CitiesController(ICityInfoRepository cityInfoRepository)
     {
-        _citiesDataStore = citiesDataStore ?? throw new ArgumentNullException(nameof(citiesDataStore));
+        _cityInfoRepository = cityInfoRepository ?? throw new ArgumentNullException(nameof(cityInfoRepository));
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<CityDto>> GetCities()
+    public async Task<ActionResult<IEnumerable<CityWithoutPointOfInterestDto>>> GetCities()
     {
-        return Ok((_citiesDataStore.cities));
-    }
+        var cityEntities = await _cityInfoRepository.GetCitiesAsync();
 
-    [HttpGet("{id}")]
-    public ActionResult<CityDto> GetCityDto(int id)
-    {
-        // Find City
-        var cityToReturn = _citiesDataStore.cities.FirstOrDefault(x => x.id == id);
+        var resultsDtos = new List<CityWithoutPointOfInterestDto>();
 
-        // Return with 404 Not Found Status Code
-        if (cityToReturn == null)
+        foreach (var cityEntity in cityEntities)
         {
-            return NotFound();
+            resultsDtos.Add(new CityWithoutPointOfInterestDto()
+            {
+                id = cityEntity.id,
+                description = cityEntity.description,
+                name = cityEntity.name
+            });
         }
 
-        // Return with 200 Ok Status Code
-        return Ok(cityToReturn);
+        return Ok(resultsDtos);
+
+        // return Ok((_cityInfoRepository.cities));
     }
+
+    // [HttpGet("{id}")]
+    // public ActionResult<CityDto> GetCityDto(int id)
+    // {
+    //     // Find City
+    //     var cityToReturn = _cityInfoRepository.cities.FirstOrDefault(x => x.id == id);
+    //
+    //     // Return with 404 Not Found Status Code
+    //     if (cityToReturn == null)
+    //     {
+    //         return NotFound();
+    //     }
+    //
+    //     // Return with 200 Ok Status Code
+    //     return Ok(cityToReturn);
+    // }
 }
