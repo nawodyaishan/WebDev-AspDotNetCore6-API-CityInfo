@@ -4,10 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CityInfoServiceAPI.Controllers;
 
-[Route("api/cities/{cityId}/pointOfInterestId")]
+[Route("api/cities/{cityId}/pointsofinterest")]
 [ApiController]
 public class PointsOfInterestController : ControllerBase
 {
+    private readonly ILogger<PointsOfInterestController> _logger;
+
+    public PointsOfInterestController(ILogger<PointsOfInterestController> logger)
+    {
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    }
+
     [HttpGet]
     public ActionResult<IEnumerable<PointOfInterestDto>> GetPointsOfInterest(int cityId)
     {
@@ -16,6 +23,7 @@ public class PointsOfInterestController : ControllerBase
         // Return with 404 Not Found Status Code
         if (city == null)
         {
+            _logger.LogInformation("City with the id of {cityId} was not found", cityId);
             return NotFound();
         }
 
@@ -23,7 +31,7 @@ public class PointsOfInterestController : ControllerBase
         return Ok(city.pointsOfInterest);
     }
 
-    [HttpGet("{pointOfInterestId}", Name = "GetPointOfInterest")]
+    [HttpGet("{pointofinterestid}", Name = "GetPointOfInterest")]
     public ActionResult<PointOfInterestDto> GetPointOfInterest(
         int cityId, int pointOfInterestId)
     {
@@ -81,7 +89,7 @@ public class PointsOfInterestController : ControllerBase
             finalPointOfInterest);
     }
 
-    [HttpPut("{pointOfInterestId}")]
+    [HttpPut("{pointofinterestid}")]
     public ActionResult UpdatePointOfInterest(int cityId, int pointOfInterestId,
         PointOfInterestForUpdateDto pointOfInterestForUpdateDto)
     {
@@ -107,7 +115,7 @@ public class PointsOfInterestController : ControllerBase
     }
 
 
-    [HttpPatch("{pointOfInterestId}")]
+    [HttpPatch("{pointofinterestid}")]
     public ActionResult PartiallyUpdatePointOfInterest(int cityId, int pointOfInterestId,
         JsonPatchDocument<PointOfInterestForUpdateDto> patchDocument)
     {
@@ -150,7 +158,7 @@ public class PointsOfInterestController : ControllerBase
         return NoContent();
     }
 
-    [HttpDelete("{pointOfInterestId}")]
+    [HttpDelete("{pointofinterestid}")]
     public ActionResult DeletePointOfInterest(int cityId, int pointOfInterestId)
     {
         var city = CitiesDataStore.Current.cities.FirstOrDefault(c => c.id == cityId);
