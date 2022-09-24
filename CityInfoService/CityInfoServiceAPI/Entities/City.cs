@@ -8,7 +8,7 @@ public class City
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int cityId { get; set; }
+    public int id { get; set; }
 
     [Required]
     [MaxLength(50)]
