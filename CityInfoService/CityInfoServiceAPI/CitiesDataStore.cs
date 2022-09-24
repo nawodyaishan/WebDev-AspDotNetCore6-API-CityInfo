@@ -6,6 +6,7 @@ public class CitiesDataStore
 {
     public List<CityDto> cities { get; set; }
 
+    // Removed Static Class After Dependency Injection
     // public static _CitiesDataStore Current { get; } = new _CitiesDataStore();
 
     public CitiesDataStore()

@@ -2,13 +2,19 @@ namespace CityInfoServiceAPI.Services;
 
 public class CloudMailService : IMailService
 {
-    public string MailTo = "nawodyain@gmail.com";
-    public string MailFrom = "logger@cityInfo.com";
+    private readonly string _mailTo;
+    private readonly string _mailFrom;
+
+    public CloudMailService(IConfiguration configuration)
+    {
+        _mailFrom = configuration["mailSettings:mailToAddress"];
+        _mailTo = configuration["mailSettings:mailFromAddress"];
+    }
 
     public void Send(string subject, string message)
     {
         // send mail - output to console window
-        Console.WriteLine($"Mail From {MailFrom} to {MailTo} with {nameof(CloudMailService)}.");
+        Console.WriteLine($"Mail From {_mailFrom} to {_mailTo} with {nameof(CloudMailService)}.");
         Console.WriteLine($"Subject {subject}");
         Console.WriteLine($"Message {message}");
     }

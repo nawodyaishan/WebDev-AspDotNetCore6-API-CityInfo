@@ -21,7 +21,7 @@ public class PointsOfInterestController : ControllerBase
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    [HttpGet]
+    [HttpGet] 
     public ActionResult<IEnumerable<PointOfInterestDto>> GetPointsOfInterest(int cityId)
     {
         var city = _citiesDataStore.cities.FirstOrDefault(x => x.id == cityId);
