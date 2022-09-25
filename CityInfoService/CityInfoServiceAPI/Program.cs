@@ -44,8 +44,7 @@ builder.Services.AddSingleton<CitiesDataStore>();
 
 // Register for Dependency Injection
 builder.Services.AddDbContext<CityInfoContext>(dbContextOptions =>
-    dbContextOptions.UseSqlite("DataSource = CityInfo.db"));
-
+    dbContextOptions.UseSqlite(builder.Configuration["ConnectionStrings:CityInfoDBConnectionString"]));
 
 var app = builder.Build();
 
